@@ -1,0 +1,30 @@
+\section{Conclusion}
+\label{sec:conclusion}
+This work explores the capabilities and limitations of diffusion policies for visuomotor tasks, specifically within the PushT environment, leveraging the LeRobot framework.
+Our experiments confirm the potential of diffusion-based policies for sampling trajectories from a
+high-dimensional and multimodal distribution while ensuring temporal consistency.
+However, our analysis reveals significant vulnerabilities under out of distribution inputs, such as
+visual occlusion, and limitations in showing action multimodality behaviors.
+
+Our results highlight that adding data augmentation leads to noticeable performance improvements, even with 10 times fewer training steps, by evaluating the policy using an alternative metric,
+(the coverage rate instead of the success rate).
+More generally, as it is challenging to cover all scenarios encountered in reality, it may be beneficial
+to detect when the agent faces a situation outside the training distribution. This could involve a module
+on top of the policy that identifies the agent's fuzzy movements, often linked to uncertainty in generation.
+In this context, we were interested in estimating prediction uncertainty from a batch of generated trajectories.
+Our intuition was that in a novel situation, DP would be unable to accurately generate a trajectory,
+and the uncertainty would be reflected in the spread of the batch predictions.
+Furthermore, to distinguish between multimodality and uncertainty, we considered extracting trends from batch
+predictions, for instance, through clustering.
+Unfortunately, we observed excessive confidence in trajectory predictions, even in novel situations.
+
+% \todo{Opening on action multimodality:}
+% Our findings emphasize the lack of scenarios where the diffusion policy exhibits multimodality behaviors.
+% We hypothesize that this limitation could come from the PushT environment itself, which may inherently constrain opportunities for such scenarios, or from insufficient diversity in the dataset.
+% Further studies are necessary to investigate this issue and identify potential solutions to encourage and effectively capture multimodal action behaviors.
+
+Regarding action multimodality, we highlighted DP's ability to handle ambiguous situations as well as the
+sensitivity of training to the quantity and diversity of data in modeling the underlying multimodal distribution.
+More broadly, this issue is linked to the suboptimality of learning from human demonstrations.
+Several techniques could help address this problem, including data augmentation, generating expert trajectories
+in simulation, or fine-tuning the policy through RL \cite{uehara_understanding_2024,ren_diffusion_2024}.

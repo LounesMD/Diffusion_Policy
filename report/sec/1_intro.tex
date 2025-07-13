@@ -1,0 +1,41 @@
+\section{Introduction}
+\label{sec:intro}
+
+Robotics has traditionally been state-based, meaning we attempt to estimate the state of a dynamic system
+from our sensor measurements and construct the action to perform based on this state.
+Today, mainly due to technical advances in deep learning, it has become common to bypass this intermediate
+representation and directly construct the action from the observation, using sensor-based approaches.
+A visuomotor policy refers to a policy that generates actions based on
+visual observations of the scene.
+An early example of such a policy can be obtained by image-based visual servoing,
+where the goal is to move the robot so that its observation matches a target observation
+(for example, by overlaying local correspondences between the two images) \cite{chaumette_visual_2006}.
+However, we are quickly limited to simple positioning tasks.
+Imitation learning is a popular framework for designing
+such a policy in the context of complex robotic manipulation, as it enables learning from human demonstrations
+in a supervised way \cite{florence_implicit_2021,zhao_learning_2023}.
+
+\vspace{0.5em}
+Multiple challenges arise in this setting:
+\begin{itemize}
+    \item \textbf{Action multimodality}. How to handle situations where different actions are equivalent?
+    \item \textbf{Temporal consistency} of the generated actions. How to ensure a smooth trajectory?
+    \item \textbf{High-dimensional action space}. How to scale up?
+\end{itemize}
+
+\vspace{0.5em}
+Several approaches have addressed the problem of action multimodality.
+The idea is always the same: to sample an action from the (potentially multimodal) distribution of
+possible actions at the current moment to perform the task.
+This distribution can be explicitly predicted by discretizing the action space \cite{shafiullah_behavior_2022} or
+using a Gaussian mixture \cite{mandlekar_what_2021}.
+Today, generative models allow for better capturing of multimodality by implicitly learning the
+underlying distribution. In the literature, approaches include energy-based models \cite{florence_implicit_2021},
+conditional variational autoencoders (VAEs) \cite{zhao_learning_2023}, or diffusion models \cite{chi2023diffusion}.
+Regarding temporal consistency, receding-horizon-like strategies have proven to be effective but require
+the model to be able to predict a sequence of actions, which can be of high dimension.
+
+\vspace{0.5em}
+DiffusionPolicy (DP) \cite{chi2023diffusion} is a candidate solution that addresses theses challenges:
+It leverages conditioned diffusion models to sample from an unknown complex and
+multimodal distribution of action sequences, and a receding-horizon control strategy.
